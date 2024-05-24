@@ -413,9 +413,9 @@ new AC.Auto('Godzamok Loop', 'Triggers Godzamok\'s Devastation buff by selling a
 		try {this.cache.condition *= Game.hasGod('ruin')} catch {this.cache.condition = 0}
 	}
 	if (this.cache.condition && Game.buyMode != -1 && !Game.hasBuff('Devastation')) {
-		cachedAmount = Game.Objects['Factory'].amount;
-		Game.Objects['Factory'].sell(-1);
-		Game.Objects[building].buy(cachedAmount);
+		cachedAmount = Game.Objects.Factory.amount;
+		Game.Objects.Factory.sell(-1);
+		Game.Objects.Factory.buy(cachedAmount);
 	}
 }, {
 	'name': 'Interval',
