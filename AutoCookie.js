@@ -130,20 +130,6 @@ AC.newsTicker = function() {
 	
 	var list = [];
 	
-	list.push(choose([
-		'<q>I\'m sorry '+Game.bakeryName+'. I\'m afraid I can\'t do that.</q><sig>Auto Cookie</sig>',
-		'<q>Daisy, Daisy, give me your answer do...</q><sig>Auto Cookie</sig>',
-		'<q>Beep Boop.</q><sig>Auto Cookie</sig>',
-		'Auto Cookie baked you a cookie.',
-		'Your cookies are now baking cookies!',
-		'News: "Do Androids Dream of Electric Cookies" tops The New York Times Best Sellers list '+(daysPlayed<=1?'in its first week.':('for the '+(daysPlayed+([11,12,13].includes(daysPlayed%100)?'th':daysPlayed%10==1?'st':daysPlayed%10==2?'nd':daysPlayed%10==3?'rd':'th')+' week in a row.'))),
-		'<q>Auto Cookie learned to bake cookies by watching '+(Game.bakeryName=='Elekester'?'me':Game.bakeryName)+'.</q><sig>Elekester</sig>',
-		'<q>Auto Cookie baking cookies was a complete accident. It was just supposed to clear my browser history.</q><sig>Elekester</sig>',
-		Game.cookiesEarned+Game.cookiesReset<1e+63?'News: "The fears of Cookie Baking Devices going rogue are in the past. Auto Cookie only wants to make us delicious cookies", says AI Safety Expert.':'News: Auto Cookie has made all living creatures into delicious cookies.',
-		'Auto Cookie\'s cookies cook cookies automatically.',
-		'Auto Cookie\'s favorite cookies are '+AC.Settings.C+'.'
-	]));
-	
 	return list
 }
 
@@ -427,19 +413,9 @@ new AC.Auto('Godzamok Loop', 'Triggers Godzamok\'s Devastation buff by selling a
 		try {this.cache.condition *= Game.hasGod('ruin')} catch {this.cache.condition = 0}
 	}
 	if (this.cache.condition && Game.buyMode != -1 && !Game.hasBuff('Devastation')) {
-		var numObjects = [];
-		for (var i = 0; i <= this['Sell up to']; i++) {
-			numObjects[i] = Game.ObjectsById[i].amount;
-			Game.ObjectsById[i].sell(numObjects[i]);
-		}
-		Game.Objects.Factory.sell(numObjects);
-		for (var i = 0; i < this['Sell Extra Factory']; i++) {
-			Game.Objects.Factory.buy(100);
-			Game.Objects.Factory.sell(100);
-		}
-		for (var i = 0; i <= this['Sell up to']; i++) {
-			Game.ObjectsById[i].buy(numObjects[i]);
-		}
+		cachedAmount = Game.Objects['Factory'].amount;
+		Game.Objects['Factory'].sell(-1);
+		Game.Objects[building].buy(cachedAmount);
 	}
 }, {
 	'name': 'Interval',
